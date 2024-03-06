@@ -6,13 +6,14 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+const catalogRouter = require("./routes/catalog");
 
 var app = express();
 
 // Set up mongoose connection
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
-const mongoDB = "mongodb+srv://dewaldfourie0808:qx6W2$Cu3NJSAtS@cluster0.6gldhvb.mongodb.net/fapple_inventory?retryWrites=true&w=majority"
+const mongoDB = "mongodb+srv://dewaldfourie08:admin@cluster0.6gldhvb.mongodb.net/fapple_inventory?retryWrites=true&w=majority"
 
 main().catch((err) => console.log(err));
 async function main() {
@@ -31,6 +32,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/catalog', catalogRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

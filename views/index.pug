@@ -2,4 +2,10 @@ extends layout
 
 block content
   h1= title
-  p Welcome to #{title}
+  p Welcome to #[em Fapple Store], We have a variety of the newest and best tech devices for you to choose from.
+
+  p Current Inventory: 
+
+  ul
+    li #[strong Categories:] !{category_count}
+    li #[strong Items:] !{item_count}
