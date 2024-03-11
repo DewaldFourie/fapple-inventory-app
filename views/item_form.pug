@@ -1,0 +1,37 @@
+extends layout 
+
+block content 
+  h1= title 
+
+  form(action="", method="post")
+    div.form-group  
+      label(for="item_title") Item Name: 
+      input#item_title.form-control(type="text" placeholder="Title" name="item_title" required value=(undefined===item ? '' : item.title))
+    div.form-group 
+      label(for="item_category") Item Category: 
+      select#item_category.form-control(name="item_category" required)
+        option(value="") --Please select a Category--
+        for category in categories 
+          if item 
+            if category._id.toString()===item.category._id.toString()
+              option(value=category._id selected) #{category.title} 
+            else 
+              option(value=category._id) #{category.title} 
+          else 
+            option(value=category._id) #{category.title}  
+    div.form-group  
+      label(for="item_description") Item Description: 
+      textarea#item_description.form-control(name="item_description" placeholder="Description" required)= undefined===item ? '' : item.description 
+    div.form-group
+      label(for='item_price') Item Price:
+      input#item_price.form-control(type='number' placeholder='Enter Price' name='price' required)
+    div.form-group
+      label(for='item_count') Number of Stock:
+      input#item_count.form-control(type='number' placeholder='Enter Stock Quantity' name='count' required)
+  
+  button.btn.btn-primary(type='submit') Submit
+  
+  if errors 
+    ul 
+      for error in errors 
+        li!= error.msg
