@@ -9,3 +9,7 @@ block content
     p(style='font-size:smaller;max-width:50%;') #{item.description} 
   p #[strong Price:] #{item.price} 
   p #[strong Amount in Stock:] #{item.count} 
+
+  hr
+  p 
+    a(href=item.url+'/delete') Delete Item 
