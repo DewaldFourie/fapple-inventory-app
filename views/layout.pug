@@ -14,18 +14,19 @@ html(lang='en')
         div(class='col-sm-2')
           block sidebar
             ul(class='sidebar-nav')
+              h5 FappleStore
               li
-                a(href='/catalog') Home
+                a(class='sidebar-nav-link' href='/catalog') Home
               li
-                a(href='/catalog/categories') Categories
+                a(class='sidebar-nav-link' href='/catalog/categories') Categories
               li
-                a(href='/catalog/items') Items
+                a(class='sidebar-nav-link' href='/catalog/items') Items
               li
                 hr
               li
-                a(href='/catalog/category/create') Create new Category
+                a(class='sidebar-nav-link' href='/catalog/category/create') Create new Category
               li
-                a(href='/catalog/item/create') Create new Item
+                a(class='sidebar-nav-link' href='/catalog/item/create') Create new Item
 
         div(class='col-sm-10')
           block content

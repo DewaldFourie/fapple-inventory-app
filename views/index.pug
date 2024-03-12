@@ -1,11 +1,20 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #[em Fapple Store], We have a variety of the newest and best tech devices for you to choose from.
+  div.home-page-container
+    div.home-header
+      h1= title
+    div.home-summary  
+      p Welcome to #[em Fapple Store], We have a variety of the newest and best tech devices for you to choose from.
 
-  p Current Inventory: 
+    p Current Inventory: 
 
-  ul
-    li #[strong Categories:] !{category_count}
-    li #[strong Items:] !{item_count}
+    ul
+      li #[strong Categories:] !{category_count}
+      li #[strong Items:] !{item_count}
+
+    div.main-content-container 
+      div.main-content-item 
+        a(href="/catalog/categories") Categories
+      div.main-content-item
+        a(href="/catalog/items") Items
