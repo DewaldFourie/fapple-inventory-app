@@ -126,10 +126,83 @@ exports.item_delete_post = asyncHandler(async (req, res, next) => {
 
 // Display item update form on GET
 exports.item_update_get = asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: item update GET");
+    // Get item and categories for form
+    const [item, allCategories] = await Promise.all([
+        Item.findById(req.params.id).populate("category").exec(),
+        Category.find().sort({ title: 1 }).exec(),
+    ]);
+
+    if (item===null) {
+        // no results
+        const err = new Error("Item not found");
+        err.status = 404;
+        return next(err);
+    }
+
+    res.render("item_form", {
+        title: "Update Item",
+        categories: allCategories,
+        item: item,
+    });
 });
 
 // handle item update on post
-exports.item_update_post = asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: item update POST");
-});
+exports.item_update_post = [
+    // validate and sanitize fields
+    body("item_title", "Title must not be empty.")
+        .trim()
+        .isLength({ min: 1 })
+        .escape(),
+    body("item_category", "Category must not be empty.")
+        .trim()
+        .isLength({ min: 1 })
+        .escape(),
+    body("item_description", "Description must not be empty.")
+        .trim()
+        .isLength({ min: 1 })
+        .escape(),
+    body("item_price", "Price must not be empty.")
+        .trim()
+        .isLength({ min: 1 })
+        .escape(),
+    body("item_count", "Item Count must not be empty.")
+        .trim()
+        .isLength({ min: 1 })
+        .escape(),
+
+    // Process request after validation and sanitization
+    asyncHandler(async (req, res, next) => {
+        // extract validation errors from request
+        const errors = validationResult(req)
+
+        // Create an Item object with escaped/trimmed data and old ID
+        const item = new Item({
+            title: req.body.item_title,
+            category: req.body.item_category,
+            description: req.body.item_description,
+            price: req.body.item_price,
+            count: req.body.item_count,
+            _id: req.params.id // This is required, or a new ID will be assigned!
+        });
+
+        if (!errors.isEmpty()) {
+            // there are errors. Render form again with sanitized val/err msgs
+            const allCategories = await Category.find().sort({ title: 1 }).exec();
+
+            res.render("item_form", {
+                title: "Create Item",
+                categories: allCategories,
+                item: item,
+                errors: errors.array(),
+            });
+            return;
+        }
+        else {
+            //data from form is valid. Update record
+            const updatedItem = await Item.findByIdAndUpdate(req.params.id, item, {});
+            //redirect to item detail page
+            res.redirect(updatedItem.url)
+        }
+    })
+
+]

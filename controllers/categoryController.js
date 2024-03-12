@@ -67,7 +67,8 @@ exports.category_create_post = [
     body("cat_description")
         .trim()
         .isLength({ min: 10 })
-        .withMessage("Description must contain at least 10 characters"),
+        .withMessage("Description must contain at least 10 characters")
+        .escape(),
 
     // Process request after validation and sanitization
     asyncHandler(async (req, res, next) => {
@@ -145,10 +146,64 @@ exports.category_delete_post = asyncHandler(async (req, res, next) => {
 
 // Display Category update form on GET
 exports.category_update_get = asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Category update GET");
+    // get category for form
+    const category = await (Category.findById(req.params.id).exec())
+
+    if (category===null) {
+        // no results
+        err = new Error("Category not found");
+        err.status = 404;
+        return next(err)
+    }
+
+    res.render("category_form", {
+        title: "Update Category",
+        category: category,
+    })
 });
 
 // handle Category update on post
-exports.category_update_post = asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Category update POST");
-});
+exports.category_update_post = [
+    // validate and sanitize fields
+    body("cat_title", "Category name must contain at least 3 characters")
+        .trim()
+        .isLength({ min:3 })
+        .escape(),
+    body("cat_description")
+        .trim()
+        .isLength({ min: 10 })
+        .withMessage("Description must contain at least 10 characters")
+        .escape(),
+
+        //Process request after validation and sanitization
+        asyncHandler(async (req, res, next) => {
+            const errors = validationResult(req)
+
+            // create a category object with escaped and trimmed data adn old ID
+            const category = new Category({
+                title: req.body.cat_title,
+                description: req.body.cat_description,
+                _id: req.params.id, //---- THIS IS REQUIRED OR A NEW ID WILL BE ASSIGNED ----//
+            });
+
+            if (!errors.isEmpty()) {
+                // There are errors. Render form again with sanitized val/err msgs
+                res.render("category_form", {
+                    title: "Update Category",
+                    category: category,
+                    errors: errors.array(),
+                });
+                return
+            }
+            else {
+                //data from form is valid. Update record
+                const updatedCategory = await Category.findByIdAndUpdate(req.params.id, category, {});
+                // redirect to category detail page
+                res.redirect(updatedCategory.url)
+            }
+        })
+
+
+
+
+]
