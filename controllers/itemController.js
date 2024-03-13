@@ -66,6 +66,13 @@ exports.item_create_post = [
         .trim()
         .isLength({ min: 1 })
         .escape(),
+    body("item_image")
+        .trim()
+        .isLength({ min: 1 })
+        .withMessage("URL must not be empty.")
+        .isURL()
+        .withMessage("Must enter a valid URL")
+        .escape(),
 
     // Process request after validation and sanitization
     asyncHandler(async (req, res, next) => {
@@ -79,6 +86,7 @@ exports.item_create_post = [
             description: req.body.item_description,
             price: req.body.item_price,
             count: req.body.item_count,
+            image: req.body.item_image,
         });
 
         if (!errors.isEmpty()) {
@@ -169,6 +177,12 @@ exports.item_update_post = [
         .trim()
         .isLength({ min: 1 })
         .escape(),
+    body("item_image")
+        .trim()
+        .isLength({ min: 1 })
+        .withMessage("URL must not be empty.")
+        .isURL()
+        .withMessage("Must enter a valid URL"),
 
     // Process request after validation and sanitization
     asyncHandler(async (req, res, next) => {
@@ -182,7 +196,8 @@ exports.item_update_post = [
             description: req.body.item_description,
             price: req.body.item_price,
             count: req.body.item_count,
-            _id: req.params.id // This is required, or a new ID will be assigned!
+            image: req.body.item_image,
+            _id: req.params.id, // This is required, or a new ID will be assigned!
         });
 
         if (!errors.isEmpty()) {
