@@ -3,7 +3,7 @@ extends layout
 block content 
   h1= title 
 
-  form(action="", method="POST", enctype="multipart/form-data")
+  form(action="", method="POST",)
     div.form-group  
       label(for="item_title") Item Name: 
       input#item_title.form-control(type="text" placeholder="Title" name="item_title" required value=(undefined===item ? '' : item.title))

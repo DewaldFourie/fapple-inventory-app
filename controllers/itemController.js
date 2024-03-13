@@ -71,8 +71,7 @@ exports.item_create_post = [
         .isLength({ min: 1 })
         .withMessage("URL must not be empty.")
         .isURL()
-        .withMessage("Must enter a valid URL")
-        .escape(),
+        .withMessage("Must enter a valid URL"),
 
     // Process request after validation and sanitization
     asyncHandler(async (req, res, next) => {

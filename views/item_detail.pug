@@ -7,7 +7,7 @@ block content
     a(href=item.category.url) #{item.category.title} 
   p #[strong Description:] 
     p(style='font-size:smaller;max-width:50%;') #{item.description} 
-  img(src=item.image, alt=`S{item.title} box cover`)
+  img(class='item-detail-image', src=item.image, alt=`${item.title} box cover`)
   p #[strong Price:] #{item.price} 
   p #[strong Amount in Stock:] #{item.count} 
 
