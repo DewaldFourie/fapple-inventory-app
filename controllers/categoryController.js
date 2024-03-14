@@ -23,11 +23,11 @@ exports.index = asyncHandler(async (req, res, next) => {
 
 //Display list of all the Categories
 exports.category_list = asyncHandler(async (req, res, next) => {
-    const allCategories = await Category.find({}, "title description")
+    const allCategories = await Category.find({}, "title description image")
         .sort({ title: -1 })
         .exec();
 
-    res.render("category_list", { title: "Category List", category_list: allCategories })
+    res.render("category_list", { title: "All Categories", category_list: allCategories })
 });
 
 // Display detail page for a specific Category.
@@ -62,13 +62,18 @@ exports.category_create_post = [
     // validate and sanitize the Title field
     body("cat_title", "Category Title must contain at least 3 characters")
         .trim()
-        .isLength({ min: 3 })
-        .escape(),
+        .isLength({ min: 3 }),
     body("cat_description")
         .trim()
         .isLength({ min: 10 })
         .withMessage("Description must contain at least 10 characters")
         .escape(),
+    body("cat_image")
+        .trim()
+        .isLength({ min:1 })
+        .withMessage("URL must not be empty")
+        .isURL()
+        .withMessage("Must enter a valid URL"),
 
     // Process request after validation and sanitization
     asyncHandler(async (req, res, next) => {
@@ -79,6 +84,7 @@ exports.category_create_post = [
         const category = new Category({
             title: req.body.cat_title,
             description: req.body.cat_description,
+            image: req.body.cat_image
         });
 
         if (!errors.isEmpty()) {
@@ -167,13 +173,18 @@ exports.category_update_post = [
     // validate and sanitize fields
     body("cat_title", "Category name must contain at least 3 characters")
         .trim()
-        .isLength({ min:3 })
-        .escape(),
+        .isLength({ min:3 }),
     body("cat_description")
         .trim()
         .isLength({ min: 10 })
         .withMessage("Description must contain at least 10 characters")
         .escape(),
+    body("cat_image")
+        .trim()
+        .isLength({ min:1 })
+        .withMessage("URL must not be empty")
+        .isURL()
+        .withMessage("Must enter a valid URL"),
 
         //Process request after validation and sanitization
         asyncHandler(async (req, res, next) => {
@@ -183,6 +194,7 @@ exports.category_update_post = [
             const category = new Category({
                 title: req.body.cat_title,
                 description: req.body.cat_description,
+                image: req.body.cat_image,
                 _id: req.params.id, //---- THIS IS REQUIRED OR A NEW ID WILL BE ASSIGNED ----//
             });
 

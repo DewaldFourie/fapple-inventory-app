@@ -31,8 +31,8 @@ async function main() {
 // category[0] will always be the same category, regardless of the order
 // in which the elements of promise.all's argument complete.
 
-async function categoryCreate(index, title, description) {
-    const category = new Category({ title:title, description:description });
+async function categoryCreate(index, title, description, image) {
+    const category = new Category({ title:title, description:description, image: image});
     await category.save();
     categories[index] = category;
     console.log(`Added Category: ${category}`);
@@ -58,10 +58,30 @@ async function itemCreate(index, title, category, description, price, count, ima
 async function createCategories() {
     console.log("Adding Categories");
     await Promise.all([
-        categoryCreate(0, "iPhone", "The latest smartphone collection that Fapple has to offer."),
-        categoryCreate(1, "iPad", "The latest iPads collection that Fapple has to offer."),
-        categoryCreate(2, "Mac", "The latest MacBook laptop range that Fapple has to offer."),
-        categoryCreate(3, "Fapple Watch", "The latest smart watches that Fapple has to offer."),
+        categoryCreate(
+            0, 
+            "iPhone", 
+            "The latest smartphone collection that Fapple has to offer.",
+            "https://www.istore.co.za/media/catalog/product/i/p/iphone_14_pro_deep_purple_pdp_image_position-1a__eaen_1_1_1.jpg?optimize=medium&bg-color=255,255,255&fit=bounds&height=700&width=700&canvas=700:700",
+        ),
+        categoryCreate(
+            1,
+            "iPad",
+            "The latest iPads collection that Fapple has to offer.",
+            "https://www.istore.co.za/media/catalog/product/i/p/ipad_air_cellular_starlight_pdp_image_position-1b_5g__wwen_1_1.png?format=jpeg",
+        ),
+        categoryCreate(
+            2, 
+            "Mac", 
+            "The latest MacBook laptop range that Fapple has to offer.",
+            "https://www.istore.co.za/media/catalog/product/m/a/macbook_air_15_in_m3_midnight_pdp_image_position_1__wwen_2.jpg?optimize=medium&bg-color=255,255,255&fit=bounds&height=700&width=700&canvas=700:700",
+        ),
+        categoryCreate(
+            3, 
+            "Fapple Watch", 
+            "The latest smart watches that Fapple has to offer.",
+            "https://www.istore.co.za/media/catalog/product/a/p/apple_watch_series_9_lte_41mm_gold_stainless_steel_clay_sport_band_pdp_image_position-1__wwen.jpg_2_1.jpg?optimize=medium&bg-color=255,255,255&fit=bounds&height=700&width=700&canvas=700:700",
+        ),
     ]);
 }
 

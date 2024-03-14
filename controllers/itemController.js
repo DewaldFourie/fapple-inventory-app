@@ -6,12 +6,12 @@ const Category = require("../models/category");
 
 //Display list of all the Items
 exports.item_list = asyncHandler(async (req, res, next) => {
-    const allItems = await Item.find({}, "title category")
-        .sort({ title: -1 })
+    const allItems = await Item.find({}, "title category image")
+        .sort({ title: 1 })
         .populate("category")
         .exec()
 
-    res.render("item_list", { title: "Item List", item_list: allItems });
+    res.render("item_list", { title: "All Items", item_list: allItems });
 });
 
 // Display detail page for a specific item.

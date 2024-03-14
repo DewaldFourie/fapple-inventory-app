@@ -1,12 +1,15 @@
 extends layout 
 
 block content 
-  h1= title 
-  if category_list.length 
-    ul 
+  h1(class="category-list-title")= title 
+  if category_list.length
+    div.category-list-container
       each category in category_list 
-        li 
-          a(href=category.url) #{category.title} 
-          p #{category.description}
+        div.category-list-component
+          a(class="category-list-tag" href=category.url) 
+            img(class="category-list-image" src=category.image, alt=`${category.title} box cover`)
+            div.category-list-text
+              strong #{category.title}
+              span(class="category-list-description") #{category.description}
   else 
     p There are no categories.

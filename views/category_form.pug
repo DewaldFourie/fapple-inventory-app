@@ -10,6 +10,9 @@ block content
     div.form-group 
       label(for="cat_description") Description: 
       textarea#cat_description.form-control(name='cat_description' placeholder="Description of Category" required)= undefined===category ? '' : category.description
+    div.form-group
+      label(for='cat_image') Image URL:
+      input#cat_image.form-control(type='text', placeholder='URL of image' name='cat_image' required value=(undefined===category ? '' : category.image))
     button.btn.btn-primary(type="submit") Submit 
 
   if errors 

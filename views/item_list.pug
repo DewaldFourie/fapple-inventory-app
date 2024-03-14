@@ -1,13 +1,15 @@
-extends layout 
+extends layout
 
-block content 
-  h1= title 
-  if item_list.length 
-    ul 
-      each item in item_list 
-        li 
-          a(href=item.url) #{item.title} 
-          | (#{item.category.title})
-
-  else 
+block content
+  h1(class="item-list-title")= title
+  if item_list.length
+    div.item-list-container
+      each item in item_list
+        div.item-list-component
+          a(class="item-list-tag" href=item.url)
+            img(class="item-list-image" src=item.image, alt=`${item.title} box cover`)
+            div.item-list-text 
+              strong #{item.title}
+              span #{item.category.title}
+  else
     p There are no Items.

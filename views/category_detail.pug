@@ -5,6 +5,8 @@ block content
 
   p #{category.description}
 
+  img(class='category-detail-image', src=category.image, alt=`${category.title} box cover`)
+
   div(style='margin-left:20px;margin-top:20px')
     h4 Items: 
     if category_items.length 
