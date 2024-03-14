@@ -15,7 +15,7 @@ exports.index = asyncHandler(async (req, res, next) => {
     ])
 
     res.render("index", {
-        title: "Fapple Home",
+        title: "Welcome to Fapple",
         category_count: numCategories,
         item_count: numItems,
     });
@@ -35,7 +35,7 @@ exports.category_detail = asyncHandler(async (req, res, next) => {
     // Get details of category and all associated items (in parallel)
     const [category, itemsInCategory] = await Promise.all([
         Category.findById(req.params.id).exec(),
-        Item.find({ category: req.params.id }, "title description").sort({ title: 1 }).exec()
+        Item.find({ category: req.params.id }, "title description image").sort({ title: 1 }).exec()
     ]);
 
     if (category === null) {

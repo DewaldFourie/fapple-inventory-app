@@ -14,6 +14,7 @@ block content
         each item in category_items 
           dt 
             a(href=item.url) #{item.title} 
+            img(class="category-detail-item-image" src=item.image, alt=`${item.title} box cover`)
           dd(style='font-size:smaller;max-width:50%;') #{item.description}
     
     else 
