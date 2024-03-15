@@ -5,19 +5,16 @@ block content
     div.home-header
       h1= title
     div.home-summary  
-      p We have a variety of the newest and best tech devices for you to choose from.
+      h5 We have a variety of the newest and best tech devices for you to choose from.
 
     div.main-content-container 
       div.main-content-item
         a(class="main-content-item-tag" href="/catalog/categories") 
           img(class="main-content-image" src='/images/fapple-categories.png', alt="Categories box cover")
-          strong Categories
+          h4(class="main-content-item-title") Categories
+          span(class="main-content-item-count") Inventory: !{category_count}
       div.main-content-item
         a(class="main-content-item-tag" href="/catalog/items")
           img(class="main-content-image" src='/images/fapple-items.png', alt="Items box cover")
-          strong Items
-  
-    p Current Inventory: 
-      ul
-        li #[strong Categories:] !{category_count}
-        li #[strong Items:] !{item_count}
+          h4(class="main-content-item-title") Items
+          span(class="main-content-item-count") Inventory: !{item_count}

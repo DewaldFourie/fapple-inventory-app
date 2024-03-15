@@ -1,7 +1,7 @@
 extends layout 
 
 block content 
-  h1= title 
+  h1(style="margin-bottom: 1rem;")= title 
 
   form(action="", method="POST",)
     div.form-group  
@@ -30,8 +30,9 @@ block content
       input#item_price.form-control(type='number' placeholder='Enter Price' name='item_price' required value=(undefined===item ? '' : item.price))
     div.form-group
       label(for='item_count') Number of Stock:
-      input#item_count.form-control(type='number' placeholder='Enter Stock Quantity' name='item_count' required value=(undefined===item ? '' : item.count))
-    button.btn.btn-primary(type='submit') Submit
+      input#item_count.form-control(type='number' placeholder='Count' name='item_count' required value=(undefined===item ? '' : item.count))
+    div.form-button-container
+      button.btn.btn-primary(type='submit') Submit
 
   if errors 
     ul 

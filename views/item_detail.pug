@@ -1,17 +1,17 @@
 extends layout 
 
 block content 
-  h1 Item: #{item.title} 
+  h1 #{item.title} 
 
   p #[strong Category: ]
     a(href=item.category.url) #{item.category.title} 
   p #[strong Description:] 
     p(style='font-size:smaller;max-width:50%;') #{item.description} 
   img(class='item-detail-image', src=item.image, alt=`${item.title} box cover`)
-  p #[strong Price:] #{item.price} 
+  p #[strong Price:] R #{item.price} 
   p #[strong Amount in Stock:] #{item.count} 
 
   hr
   p 
-    a(href=item.url+'/update') Update Item 
-    a(style='margin-left:100px;' href=item.url+'/delete') Delete Item 
+    a.btn.btn-warning(href=item.url+'/update') Update Item
+    a.btn.btn-danger(href=item.url+'/delete' style='margin-left:20px;') Delete Item

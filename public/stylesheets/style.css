@@ -1,3 +1,5 @@
+
+
 a{
   color: black;
 }
@@ -6,10 +8,17 @@ a:hover {
   text-decoration: none;
 }
 
+
 /* NAVBAR */
 
 nav {
   background-color: black;
+}
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000; /* Ensure the navbar is above other content */
 }
 
 a.navbar-brand {
@@ -28,27 +37,22 @@ a.navbar-brand {
 }
 
 
-
 /* HOME PAGE */
 
 .home-page-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.home-header {
-  
+  display: grid;
+  grid-template-rows: 10% 5% 65%; /* Define the rows with their respective heights */
+  justify-items: center; /* Center items horizontally */
+  align-items: center; /* Center items vertically */
+  height: 100vh; /* Ensure the container takes the full height of the viewport */
 }
 
 .main-content-container {
   display: flex;
   justify-content: space-evenly;
-  flex-wrap: wrap;
-  align-items: center;
-  height: 12rem;
   width: 100%;
+  flex-wrap: wrap;
+  gap: 20px; /* Add some space between items */
 }
 
 .main-content-item {
@@ -56,7 +60,8 @@ a.navbar-brand {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  width: calc(50% - 20px); /* Set each item to occupy half of the container width with spacing */
+  margin-bottom: 20px; /* Add margin at the bottom for spacing */
 }
 
 .main-content-item-tag {
@@ -64,6 +69,10 @@ a.navbar-brand {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 25px;
+  background-color: rgba(233, 233, 233, 0.783);
+  border-radius: 15px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
 
 .main-content-item-tag:hover {
@@ -75,6 +84,29 @@ a.navbar-brand {
   width: 15rem;
   border-radius: 15px;
 }
+
+.main-content-item-title {
+  margin-top: 2rem;
+}
+
+.main-content-item-count {
+  color: gray;
+}
+
+@media (max-width: 768px) {
+  .main-content-container {
+    margin-top: 20rem;
+  }
+
+  .main-content-item {
+    width: calc(100% - 20px); /* Each item occupies full width on smaller screens */
+  }
+
+  .home-summary {
+    margin-top: 5rem;
+  }
+}
+
 
 /* CATEGORIES LIST PAGE */
 
@@ -98,6 +130,7 @@ a.navbar-brand {
   display: flex;
   justify-content: center;
   align-items: center;
+  
 }
 
 
@@ -108,6 +141,7 @@ a.navbar-brand {
   align-items: center;
   padding: 0.2rem;
   max-width: 240px;
+  
 }
 
 .category-list-tag:hover{ 
@@ -126,12 +160,22 @@ a.navbar-brand {
 
 .category-list-description{
   text-align: center;
+  font-size: smaller;
   
 }
 
 .category-list-image {
   height: 10rem;
+  
 }
+
+@media (max-width: 500px) {
+  
+  .category-list-component {
+    width: calc(50% - 20px); /* Each item occupies half width on smaller screens */
+  }
+}
+
 
 /* CATEGORY DETAIL PAGE */
 
@@ -184,12 +228,24 @@ a.navbar-brand {
   margin: 0;
   padding: 0;
   max-width: 40%;
+  flex-wrap: wrap;
 }
 
 .item-list-image {
   width: 50%;
   height: auto;
+  min-height: 5rem;
+  min-width: 5rem;
 }
+
+@media (max-width: 500px) {
+
+  .item-list-component {
+    width: calc(50% - 20px); /* Each item occupies half width on smaller screens */
+  }
+}
+
+
 
 /* ITEM DETAIL PAGE */
 
@@ -199,11 +255,56 @@ a.navbar-brand {
 
 /* CATEGORY FORM PAGE */
 
+form {
+  max-width: 40rem;
+}
+
+#cat_title {
+  max-width: 20rem;
+}
+
+#cat_description {
+  max-width: 40rem;
+  height: 7rem;
+}
+
+#cat_image {
+  max-width: 40rem;
+}
+
+.form-button-container{
+  display: flex;
+  justify-content: center;
+  margin-bottom: 50px;
+}
 
 
 /* ITEM FORM PAGE */
 
+#item_title {
+  max-width: 20rem;
+}
 
+#item_category {
+  max-width: 20rem;
+}
+
+#item_description {
+  max-width: 40rem;
+  height: 7rem;
+}
+
+#item_image {
+  max-width: 40rem;
+}
+
+#item_price {
+  max-width: 10rem;
+}
+
+#item_count {
+  max-width: 10rem;
+}
 
 /* CATEGORY DELETE PAGE */
 
