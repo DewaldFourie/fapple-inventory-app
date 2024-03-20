@@ -144,6 +144,8 @@ exports.category_delete_post = asyncHandler(async (req, res, next) => {
         return;
     } 
     else {
+        // ask a security password in order to delete 
+        
         // Category has no items. Delete object and redirect to list of categories
         await Category.findByIdAndDelete(req.body.categoryid);
         res.redirect("/catalog/categories");

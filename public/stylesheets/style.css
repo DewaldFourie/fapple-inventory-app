@@ -8,7 +8,6 @@ a:hover {
   text-decoration: none;
 }
 
-
 /* NAVBAR */
 
 nav {
@@ -76,7 +75,7 @@ a.navbar-brand {
 }
 
 .main-content-item-tag:hover {
-  transform: scale(1.1);
+  transform: scale(1.03);
 }
 
 .main-content-image {

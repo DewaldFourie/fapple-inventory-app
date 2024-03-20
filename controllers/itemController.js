@@ -3,6 +3,8 @@ const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
 const Category = require("../models/category");
 
+const PASSWORD = 'admin';
+
 
 //Display list of all the Items
 exports.item_list = asyncHandler(async (req, res, next) => {
@@ -126,9 +128,25 @@ exports.item_delete_get = asyncHandler(async (req, res, next) => {
 
 // handle item delete on post
 exports.item_delete_post = asyncHandler(async (req, res, next) => {
-    // Delete object and redirect to list of items
-    await Item.findByIdAndDelete(req.body.itemid);
-    res.redirect("/catalog/items")
+
+    // Check if password matches
+    const { password } = req.body;
+    if ( password === PASSWORD ) {
+        // Delete object and redirect to list of items if password matches
+        await Item.findByIdAndDelete(req.body.itemid);
+        res.redirect("/catalog/items")
+    }
+    else {
+        // password is incorrect, redirect back to delete form without deleting
+        const item = await Item.findById(req.params.id).exec()
+        res.render("item_delete", {
+            title: "Delete Item",
+            item: item,
+            errMsg: "Password is Incorrect"
+        });
+    }
+
+
 });
 
 // Display item update form on GET
