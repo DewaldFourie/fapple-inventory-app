@@ -10,7 +10,7 @@ block content
   form(action="", method="post") 
     div.form-group 
       input#itemid.form-control(type="hidden" name="itemid" value=item.id)
-      input.form-control(type="password", name="password", placeholder="Enter Authentication Password")
+      input.form-control.password-input(type="password", name="password", placeholder="Enter Authentication Password")
       if errMsg 
         p.text-danger #{errMsg}
-    button.btn.btn-primary(type='submit') Delete
+    button.btn.btn-primary.delete-submit-btn(type='submit') Delete

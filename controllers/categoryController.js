@@ -4,6 +4,8 @@ const Item = require("../models/item");
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
 
+const PASSWORD = 'admin';
+
 exports.index = asyncHandler(async (req, res, next) => {
     // get details of categories and items count (in parallel)
     const [
@@ -135,7 +137,7 @@ exports.category_delete_post = asyncHandler(async (req, res, next) => {
     ]);
 
     if (allItemsInCategory.length > 0) {
-        // Category has Items. Render ins same way as get route
+        // Category has Items. Render in same way as get route
         res.render("category_delete", {
             title: "Delete Category",
             category: category,
@@ -144,11 +146,26 @@ exports.category_delete_post = asyncHandler(async (req, res, next) => {
         return;
     } 
     else {
+        // Category has no items. 
         // ask a security password in order to delete 
+        const { password } = req.body;
+        // check if password matches 
+        if ( password === PASSWORD ) {
+            // Delete object and redirect to list of categories if password matches
+            await Category.findByIdAndDelete(req.body.categoryid);
+            res.redirect("/catalog/categories");
+        }
+        else {
+            // password is incorrect. redirect back to delete form without deleting
+            res.render("category_delete", {
+                title: "Delete Category",
+                category: category,
+                category_items: allItemsInCategory,
+                errMsg: "Incorrect Password. Try Again.",
+            });
+        }
         
-        // Category has no items. Delete object and redirect to list of categories
-        await Category.findByIdAndDelete(req.body.categoryid);
-        res.redirect("/catalog/categories");
+
     }
 });
 

@@ -31,6 +31,12 @@ block content
     div.form-group
       label(for='item_count') Number of Stock:
       input#item_count.form-control(type='number' placeholder='Count' name='item_count' required value=(undefined===item ? '' : item.count))
+    if updateState
+      div.form-group 
+        label(for="password") Update Security Check:
+        input#password.form-control.password-input(type="password", name="password", placeholder="Enter Authentication Password")
+        if errMsg 
+          p.text-danger #{errMsg}
     div.form-button-container
       button.btn.btn-primary(type='submit') Submit
 

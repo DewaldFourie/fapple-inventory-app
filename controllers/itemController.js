@@ -142,7 +142,7 @@ exports.item_delete_post = asyncHandler(async (req, res, next) => {
         res.render("item_delete", {
             title: "Delete Item",
             item: item,
-            errMsg: "Password is Incorrect"
+            errMsg: "Incorrect Password. Try Again.",
         });
     }
 
@@ -157,6 +157,8 @@ exports.item_update_get = asyncHandler(async (req, res, next) => {
         Category.find().sort({ title: 1 }).exec(),
     ]);
 
+    const updateSate = true
+
     if (item===null) {
         // no results
         const err = new Error("Item not found");
@@ -168,6 +170,7 @@ exports.item_update_get = asyncHandler(async (req, res, next) => {
         title: "Update Item",
         categories: allCategories,
         item: item,
+        updateState: updateSate,
     });
 });
 
@@ -206,6 +209,8 @@ exports.item_update_post = [
         // extract validation errors from request
         const errors = validationResult(req)
 
+        const updateSate = true
+
         // Create an Item object with escaped/trimmed data and old ID
         const item = new Item({
             title: req.body.item_title,
@@ -222,18 +227,37 @@ exports.item_update_post = [
             const allCategories = await Category.find().sort({ title: 1 }).exec();
 
             res.render("item_form", {
-                title: "Create Item",
+                title: "Update Item",
                 categories: allCategories,
                 item: item,
+                updateState: updateSate,
                 errors: errors.array(),
             });
             return;
         }
         else {
-            //data from form is valid. Update record
-            const updatedItem = await Item.findByIdAndUpdate(req.params.id, item, {});
-            //redirect to item detail page
-            res.redirect(updatedItem.url)
+            //data from form is valid. Do security check
+            const { password } = req.body
+            // check if password matches
+            if ( password === PASSWORD ) {
+                // Updated object and redirect to updated item
+                const updatedItem = await Item.findByIdAndUpdate(req.params.id, item, {});
+                //redirect to item detail page
+                res.redirect(updatedItem.url)
+            }
+            else {
+                const allCategories = await Category.find().sort({ title: 1 }).exec();
+                //password is incorrect. redirect back to updated form without updating
+                res.render("item_form", {
+                    title: "Update Item",
+                    categories: allCategories,
+                    item: item,
+                    updateState: updateSate,
+                    errMsg: "Incorrect Password. Try Again"
+                });
+            }
+
+
         }
     })
 

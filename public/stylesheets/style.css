@@ -307,7 +307,12 @@ form {
 
 /* CATEGORY DELETE PAGE */
 
-
+.delete-submit-btn {
+  margin-top: 10px;
+}
 
 /* ITEM DELETE PAGE */
 
+.password-input {
+  max-width: 40%;
+}

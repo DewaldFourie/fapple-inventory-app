@@ -21,7 +21,8 @@ block content
     form(action="", method="post") 
       div.from-group 
         input#categoryid.form-control(type="hidden" name="categoryid" value=category._id)
+        input.form-control.password-input(type="password", name="password", placeholder="Enter Authentication Password")
+        if errMsg 
+          p.text-danger #{errMsg}
+      button.btn.btn-primary.delete-submit-btn(type='submit') Delete
 
-      button.btn.btn-primary(type='submit') Delete
-
-      
