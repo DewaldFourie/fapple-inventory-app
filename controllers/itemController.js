@@ -240,14 +240,14 @@ exports.item_update_post = [
             const { password } = req.body
             // check if password matches
             if ( password === PASSWORD ) {
-                // Updated object and redirect to updated item
+                // Update object and redirect to updated item
                 const updatedItem = await Item.findByIdAndUpdate(req.params.id, item, {});
                 //redirect to item detail page
                 res.redirect(updatedItem.url)
             }
             else {
                 const allCategories = await Category.find().sort({ title: 1 }).exec();
-                //password is incorrect. redirect back to updated form without updating
+                //password is incorrect. redirect back to update form without updating
                 res.render("item_form", {
                     title: "Update Item",
                     categories: allCategories,
@@ -256,9 +256,6 @@ exports.item_update_post = [
                     errMsg: "Incorrect Password. Try Again"
                 });
             }
-
-
         }
     })
-
 ]

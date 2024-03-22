@@ -174,6 +174,8 @@ exports.category_update_get = asyncHandler(async (req, res, next) => {
     // get category for form
     const category = await (Category.findById(req.params.id).exec())
 
+    const updateState = true
+
     if (category===null) {
         // no results
         err = new Error("Category not found");
@@ -184,6 +186,7 @@ exports.category_update_get = asyncHandler(async (req, res, next) => {
     res.render("category_form", {
         title: "Update Category",
         category: category,
+        updateState: updateState,
     })
 });
 
@@ -209,6 +212,8 @@ exports.category_update_post = [
         asyncHandler(async (req, res, next) => {
             const errors = validationResult(req)
 
+            const updateState = true
+
             // create a category object with escaped and trimmed data adn old ID
             const category = new Category({
                 title: req.body.cat_title,
@@ -222,19 +227,30 @@ exports.category_update_post = [
                 res.render("category_form", {
                     title: "Update Category",
                     category: category,
+                    updateState: updateState,
                     errors: errors.array(),
                 });
                 return
             }
             else {
-                //data from form is valid. Update record
-                const updatedCategory = await Category.findByIdAndUpdate(req.params.id, category, {});
-                // redirect to category detail page
-                res.redirect(updatedCategory.url)
+                //data from form is valid. Do security check
+                const { password } = req.body
+                // check if password matches
+                if ( password === PASSWORD ) {
+                    // Update object and redirect to updated category
+                    const updatedCategory = await Category.findByIdAndUpdate(req.params.id, category, {});
+                    // redirect to category detail page
+                    res.redirect(updatedCategory.url)
+                }
+                else {
+                    // password is incorrect. redirect to update form without updating
+                    res.render("category_form", {
+                        title: "Update Category",
+                        category: category,
+                        updateState: updateState,
+                        errMsg: "Incorrect Password. Try Again"
+                    })
+                }
             }
         })
-
-
-
-
 ]
